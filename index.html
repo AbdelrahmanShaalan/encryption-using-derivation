@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption using derivation</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- math js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.0.1/math.js" integrity="sha512-ldafwBWmh8q0wplbjDzai4As66n/6e0kxw51a+LRJ6+aZ27t0oGpz7HH5dUh+MwWLacrsF8cGT4zR0p2S3QHtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="main.js" defer>
+        import all from "mathjs"
+    </script>
+</head>
+<body>
+    <h1 class="heading">Encryption using derivation</h1>
+    <div class="radio-selection">
+        <div class="encryption-selection">
+            <input type="radio" name="encryption" id="encryption">
+            <label for="encryption">Encryption</label>
+        </div>
+        <div class="decryption-selection">
+            <input type="radio" name="encryption" id="decryption">
+            <label for="decryption">Decryption</label>
+        </div>
+    </div>
+    <div class="input-box">
+        <label for="input">input:</label>
+        <textarea name="input" id="input" cols="35" rows="10"></textarea>
+    </div>
+    <button id="encryptionDecryptionButton">Encryption / Decryption</button>
+    <div class="output-box">
+        <label for="output">output:</label>
+        <textarea name="output" id="output" cols="35" rows="10" readonly></textarea>
+    </div>
+</body>
+</html>
