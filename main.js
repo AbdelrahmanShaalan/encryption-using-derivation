@@ -2,18 +2,17 @@ const radioSelection = document.querySelectorAll("input[type = 'radio']");
 const encryptionSelection = document.querySelector("#encryption");
 const decryptionSelection = document.querySelector("#decryption");
 const encryptionDecryptionButton = document.querySelector("#encryptionDecryptionButton");
-const inputTextarea = document.querySelector("#input")
-const outputTextarea = document.querySelector("#output")
+const inputTextarea = document.querySelector("#input");
+const outputTextarea = document.querySelector("#output");
 
 let equation = "21 x ^ 10 + 21 x ^ 8 + 52 x ^ 7 + 82 x ^ 6 + 50 x ^ 5 + 91 x ^ 4 + 34 x ^ 3 + 12 x ^ 2 + 5";
 let alphabet = ["a" , "b" , "c" , "d" , "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"," "];
-let arrayOfNumbers = [];
-let setOfNumbers;
+let arrayOfNumbers = privateArray();
 
 radioSelection.forEach((selection) => {
     selection.onclick = (event) => {
         radioSelection.forEach((selection) => {
-            selection.classList.remove("checked")
+            selection.classList.remove("checked");
         })
         event.target.classList.add("checked");
     }
@@ -21,15 +20,28 @@ radioSelection.forEach((selection) => {
 
 encryptionDecryptionButton.onclick = () => {
     if(encryptionSelection.classList.contains("checked")) {
-        outputTextarea.innerHTML = encryption(inputTextarea.value)
+        outputTextarea.innerHTML = encryption(inputTextarea.value);
     } else if(decryptionSelection.classList.contains("checked")) {
-        outputTextarea.innerHTML = decryption(inputTextarea.value)
+        outputTextarea.innerHTML = decryption(inputTextarea.value);
     }
 }
 
 while(equation != 0) {
     equation = d(equation);
     getCoefficients(equation);
+}
+
+function privateArray() {
+    let array = [];
+    return {
+        addElement: (value) => array.push(value),
+        getElement: (index) => array[index],
+        getIndex: (value) => array.indexOf(value),
+        filterArray: () => {
+            let set = new Set(array);
+            array = [...set];
+        }
+    }
 }
 
 function d(expression) {
@@ -58,31 +70,30 @@ function getCoefficients(expression) {
     filteredExpression = filteredExpression.filter((element) => element != 0);
     
     for(element of filteredExpression) {
-        arrayOfNumbers.push(element);
+        arrayOfNumbers.addElement(element);
     }
 }
 
-setOfNumbers = new Set(arrayOfNumbers);
-arrayOfNumbers = [...setOfNumbers]
-
 function encryption(value) {
-    let encryptedText = ""
+    let encryptedText = "";
+    arrayOfNumbers.filterArray();
     for(let character of value) {
-        let index = alphabet.indexOf(character)
-        let number = arrayOfNumbers[index]
-        encryptedText += `${number})`
+        let index = alphabet.indexOf(character);
+        let number = arrayOfNumbers.getElement(index);
+        encryptedText += `${number})`;
     }
-    return encryptedText
+    return encryptedText;
 }
 
 function decryption(value) {
-    let arrayOfEncryptionText = value.split(")")
-    let decryptedText = ""
-    arrayOfEncryptionText.pop()
+    let arrayOfEncryptionText = value.split(")");
+    let decryptedText = "";
+    arrayOfEncryptionText.pop();
+    arrayOfNumbers.filterArray();
     for(let number of arrayOfEncryptionText) {
-        let index = arrayOfNumbers.indexOf(number)
-        let character = alphabet[index]
+        let index = arrayOfNumbers.getIndex(number);
+        let character = alphabet[index];
         decryptedText += character;
     }
-    return decryptedText
+    return decryptedText;
 }
